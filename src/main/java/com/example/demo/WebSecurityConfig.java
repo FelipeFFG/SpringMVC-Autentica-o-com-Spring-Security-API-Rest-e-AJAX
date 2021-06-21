@@ -20,7 +20,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()    //todoas as requisicoes
                 .anyRequest().authenticated()  //o uruarios deve estar logado
            .and()
-                .httpBasic();   //utilizado a configuração mais basica para isso.
+                .formLogin(form -> form   //qual a url que é a pagina de login
+                        .loginPage("/login")  //especificacao qual a pagina
+                        .permitAll()           //todos tem permissao para acessar esta pagina.
+                )
+        .logout(logout -> logout.logoutUrl("/logout"));  // quando houver uma requisicao para logout, o usuario sera deslogado da conta.
     }
 
 
