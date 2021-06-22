@@ -27,16 +27,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()    //todoas as requisicoes
-                .anyRequest().authenticated()  //o uruarios deve estar logado
+        http.authorizeRequests()
+           .antMatchers("/home/**")
+                .permitAll()          //uma exceção para que todas os usuarios possam ter acesso a home , nao somente usuarios logados.
+           .anyRequest().
+                authenticated()  //o usuario deve estar logado
            .and()
                 .formLogin(form -> form   //qual a url que é a pagina de login
                         .loginPage("/login")  //especificacao qual a pagina
                         .defaultSuccessUrl("/usuario/pedido",true)  //foça o spring a direcionar para a /home, ja que por padrao o spring redireciona, para a ultima requisicao de url feita.
                         .permitAll()           //todos tem permissao para acessar esta pagina.
                 )
-        .logout(logout -> logout.logoutUrl("/logout"))  // quando houver uma requisicao para logout, o usuario sera deslogado da conta.
-        .csrf().disable();
+        .logout(logout -> {
+            logout.logoutUrl("/logout")         // quando houver uma requisicao para logout, o usuario sera deslogado da conta.
+                    .logoutSuccessUrl("/home"); //Assim que o usuario se desloga, ele é direcionado para a home
+        });
+
     }
 
 
