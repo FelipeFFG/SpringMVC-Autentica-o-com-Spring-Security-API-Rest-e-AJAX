@@ -2,6 +2,8 @@ package com.example.demo.repository;
 
 import com.example.demo.model.Pedido;
 import com.example.demo.model.StatusPedido;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,7 +15,7 @@ import java.util.List;
 @Repository                                                              //fala pro Spring que essa classe é um repositorio, e que ela deve criar instancias toda vez que alguem pedir.
 public interface PedidosRepository extends JpaRepository<Pedido, Long> { //Utilizando SpringDataJPA
 
-    List<Pedido> findByStatus(StatusPedido status);      //Como usamos um metodo que retorna uma lista de pedidos, o SpringDataJPA sabe que vai fazer um select na tabela pedido
+    List<Pedido> findByStatus(StatusPedido status, Pageable paginacao);      //Como usamos um metodo que retorna uma lista de pedidos, o SpringDataJPA sabe que vai fazer um select na tabela pedido
 
 
     @Query("select p from Pedido p join p.user u where u.username = :username")
