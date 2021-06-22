@@ -9,18 +9,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
-@RequestMapping("/home")                              //Todas as requisições feitas para "/home" vai bater nesse HomeControler.
+@RequestMapping("/home")
 public class HomeController {
 
-    @Autowired                                           //pedi para o spring uma instancia de repository
-    private PedidosRepository pedidosRepository;         //separando a controladora do repositorio, onde agora para acessar o banco de dados ele tem que chamar a clase PedidosRepository
+    @Autowired
+    private PedidosRepository pedidosRepository;
 
-    @GetMapping                                        //Todas Requisiçoes "/home" vai bater nesse metodo
-    public String home(Model model) {
-        List<Pedido> pedidos = pedidosRepository.findAll();
+    @GetMapping
+    public String home(Model model, Principal principal) {     //Principal para pegar os dados dos usuarios
+        List<Pedido> pedidos = pedidosRepository.findAllByUsuario(principal.getName());
         model.addAttribute("pedidos", pedidos);
         return "home";
     }
@@ -28,15 +29,15 @@ public class HomeController {
 
 
 
-    @GetMapping("/{status}")                                                         //passando uma variavel que se altera , de acordo com o valor passado
-    public String porStatus(@PathVariable("status") String status, Model model) {   //@pathVarivel, passa para a string a variavel escrita na url
-        List<Pedido> pedidos = pedidosRepository.findByStatus(StatusPedido.valueOf(status.toUpperCase()));  //converte a string  em um enum presente no StatusPedido.
+    @GetMapping("/{status}")
+    public String porStatus(@PathVariable("status") String status, Model model) {
+        List<Pedido> pedidos = pedidosRepository.findByStatus(StatusPedido.valueOf(status.toUpperCase()));
         model.addAttribute("pedidos", pedidos);
         model.addAttribute("status",status);
         return "home";
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)                                   //Tratando os paths/status que nao forem os que selecioanmos no porStauts.
+    @ExceptionHandler(IllegalArgumentException.class)
     public String onError(){                                                            //retornando para o /home
         return "redirect:/home";
     }
