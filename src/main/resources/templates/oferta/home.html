@@ -1,38 +1,91 @@
-<html>
+<html xmlns="http://www.w3.org/1999/html" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head th:replace="~{base :: head}"></head>
-<body>
+<body onload="onLoad()">
 <div th:replace="~{base :: logo}"></div>
 
-<div th:replace="~{base :: titulo('Últimos Pedidos')}"></div>
 
-<div class="card mb-3" th:each="pedido: ${pedidos}">
+<div class ="container"  id = "ofertas">
+    <div th:replace="~{base :: titulo('Faca sua oferta')}"></div>
+    <div class="card mb-3" v-for="pedido in pedidos">
+        <div class="card-header alert alert-dark" >{{pedido.nomeProduto}}</div>
 
-        <div class="card-header alert alert-dark" th:text="${pedido.nomeProduto}">Nome do produto</div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 col-sm-8 mb-3">
+                    <div class="row">
+                        <div class="col-md-5">Valor:<input/> <div>
+                        <div class="col-md-7">Data de entrega:<input/> </div>
+                    </div>
+                    <div>Produto</div>
+                            <div><a  v-bind:href="pedido.urlProduto" >{{pedido.urlProduto}}</a></div>
 
-    <div class="card-body">
-        <div class="row">
-            <div class="col-12 col-sm-8 mb-3">
-                <div class="row">
-                    <div class="col-md-5">Valor: <span th:if="${pedido.valorNegociavel} != null"th:text="${'R$ ' +#numbers.formatDecimal(pedido.valorNegociavel,3,'POINT',2,'COMMA')}">200,99</span></div>
-                    <div class="col-md-7">Data de entrega:<span th:text="${#temporals.format(pedido.dataDaEntrega, 'dd/MM/yyyy')}">10/02/2020</span>
+                    <div>Descrição</div>
+                    <div>
+                        <textarea v-bind:href="pedido.descricao">{{pedido.descricao}}</textarea>
                     </div>
                 </div>
-                <div>Produto</div>
-                <div><input class="form-control" th:value="${pedido.urlProduto}" value="Url do produto"/></div>
-
-                <div>Descrição</div>
-                <div>
-                    <textarea class="form-control" th:text="${pedido.descricao}">descrição do pedido</textarea>
-                </div>
-            </div>
-            <div class="col-12 col-sm-4 ">
-                <div>
-                    <img class="img-thumbnail" th:src="${pedido.urlImagem}" src=""/>
+                <div class="col-12 col-sm-4 ">
+                    <div>
+                        <img class="img-thumbnail" v-bind:src="pedido.urlImagem"/>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 </div>
+<script>
+    function onLoad() {
+        var app= new Vue({
+            el:'#ofertas',
+            data:{
+                pedidos: [
+                    {
+                        "id": 4,
+                        "nomeProduto": "NZXT WaterCooler Kraken",
+                        "valorNegociavel": null,
+                        "dataDaEntrega": null,
+                        "urlProduto": "https://www.amazon.com.br/Water-Cooler-Kraken-RL-KRX53-01-NZXT/dp/B0849SJMCW/ref=a",
+                        "urlImagem": "https://images-na.ssl-images-amazon.com/images/I/51bSYV15QpL._AC_SL1000_.jpg",
+                        "descricao": null,
+                        "status": "AGUARDANDO",
+                        "user": {
+                            "username": "maria",
+                            "password": "$2a$10$4XOnhcC6OxNn.mwtRby6s.tEluB7r20UkMiTBTdCave4CMWvG2fUG",
+                            "enabled": true
+                        }
+                    },
+                    {
+                        "id": 2,
+                        "nomeProduto": "Porta",
+                        "valorNegociavel": null,
+                        "dataDaEntrega": null,
+                        "urlProduto": "https://www.balaroti.com.br/porta-virola-70x210-lisa-com-83391/p?idsku=83391&gclid=Cj0KCQjwlMaGBhD3ARIsAPvWd6iIo09L58aolOU4KHgvbXKZcG7plXo5vM-zuc-Z_kAMf-CS_CzKedwaAooiEALw_wcB",
+                        "urlImagem": "https://balaroti.vteximg.com.br/arquivos/ids/175705/83391.jpg?v=636450628739930000",
+                        "descricao": null,
+                        "status": "AGUARDANDO",
+                        "user": null
+                    },
+                    {
+                        "id": 1,
+                        "nomeProduto": "Placa de video",
+                        "valorNegociavel": null,
+                        "dataDaEntrega": null,
+                        "urlProduto": "https://www.google.com/search?q=RTX+3060&rlz=1C1ISCS_pt-PTBR953BR953&oq=RTX+3060&aqs=chrome..69i57j69i59j0i433j0l3j69i60l2.1899j0j7&sourceid=chrome&ie=UTF-8",
+                        "urlImagem": "https://www.casasbahia-imagens.com.br/Control/ArquivoExibir.aspx?IdArquivo=1767519503",
+                        "descricao": null,
+                        "status": "AGUARDANDO",
+                        "user": {
+                            "username": "joao",
+                            "password": "$2a$10$91nvyimjhqxgblsJfFGJO.6kQd29/jaDwwryoiE0N9ke7u8aofV26",
+                            "enabled": true
+                        }
+                    }
+                ]
+            }
+        });
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </body>
 </html>
