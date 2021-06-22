@@ -23,7 +23,6 @@ public class HomeController {
 
     @GetMapping
     public String home(Model model, Principal principal) {     //Principal para pegar os dados dos usuarios
-
         Sort sort =  Sort.by("dataDaEntrega").descending();
         PageRequest paginacao = PageRequest.of(0,10,sort);   //primeira pagina,1 item por pagina, e ordenado de maneira de cresente por data de entrega
         List<Pedido> pedidos = pedidosRepository.findByStatus(StatusPedido.ENTREGUE,paginacao);      //Mostrar todos os pedidos entregues.
