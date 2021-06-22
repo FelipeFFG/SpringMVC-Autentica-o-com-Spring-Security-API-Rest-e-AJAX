@@ -6,44 +6,44 @@ import com.example.demo.repository.PedidosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 import java.util.List;
 
 @Controller
-@RequestMapping("/home")
-public class HomeController {
+@RequestMapping("usuario")
+public class UsuarioController {
+
 
     @Autowired
     private PedidosRepository pedidosRepository;
 
-    @GetMapping
+
+    @GetMapping("pedido")
     public String home(Model model, Principal principal) {     //Principal para pegar os dados dos usuarios
-        List<Pedido> pedidos = pedidosRepository.findAll();
+        List<Pedido> pedidos = pedidosRepository.findAllByUsuario(principal.getName());
         model.addAttribute("pedidos", pedidos);
-        return "home";
+        return "usuario/home";
     }
 
 
-    @GetMapping("/{status}")
-    public String porStatus(@PathVariable("status") String status, Model model) {
-        List<Pedido> pedidos = pedidosRepository.findByStatus(StatusPedido.valueOf(status.toUpperCase()));
+
+    @GetMapping("pedido/{status}")
+    public String porStatus(@PathVariable("status") String status, Model model,Principal principal) {
+        List<Pedido> pedidos = pedidosRepository.findByStatusEUsuario(StatusPedido.valueOf(status.toUpperCase()),principal.getName());
         model.addAttribute("pedidos", pedidos);
         model.addAttribute("status",status);
-        return "home";
+        return "usuario/home";
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public String onError(){                                                            //retornando para o /home
-        return "redirect:/home";
+        return "redirect:/usuario/home";
     }
 
-/*    @GetMapping("/aguardando")                    //Todas as requisiçoes "/home/aguardando" vai bater nesse metodo
-    public String aguardando(Model model){
-        List<Pedido> pedidos = pedidosRepository.findByStatus(StatusPedido.AGUARDANDO);
-        model.addAttribute("pedidos",pedidos);
-        return "home";
-    }*/
+
 }

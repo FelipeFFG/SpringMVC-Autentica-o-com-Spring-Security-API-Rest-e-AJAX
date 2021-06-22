@@ -32,7 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
            .and()
                 .formLogin(form -> form   //qual a url que é a pagina de login
                         .loginPage("/login")  //especificacao qual a pagina
-                        .defaultSuccessUrl("/home",true)  //foça o spring a direcionar para a /home, ja que por padrao o spring redireciona, para a ultima requisicao de url feita.
+                        .defaultSuccessUrl("/usuario/pedido",true)  //foça o spring a direcionar para a /home, ja que por padrao o spring redireciona, para a ultima requisicao de url feita.
                         .permitAll()           //todos tem permissao para acessar esta pagina.
                 )
         .logout(logout -> logout.logoutUrl("/logout"))  // quando houver uma requisicao para logout, o usuario sera deslogado da conta.
