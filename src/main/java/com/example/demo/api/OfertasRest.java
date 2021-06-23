@@ -22,7 +22,7 @@ public class OfertasRest {
 
 
     @PostMapping
-    public Oferta criaOferta(RequisicaoNovaOferta requisicao){
+    public Oferta criaOferta(@RequestBody RequisicaoNovaOferta requisicao){
         Optional<Pedido> pedidoBuscado =pedidosRepository.findById(requisicao.getPedidoId());
 
         if(!pedidoBuscado.isPresent()){

@@ -27,7 +27,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+        http
+            .csrf().disable()
+                .authorizeRequests()
            .antMatchers("/home/**")
                 .permitAll()          //uma exceção para que todas os usuarios possam ter acesso a home , nao somente usuarios logados.
            .anyRequest().
@@ -42,6 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             logout.logoutUrl("/logout")         // quando houver uma requisicao para logout, o usuario sera deslogado da conta.
                     .logoutSuccessUrl("/home"); //Assim que o usuario se desloga, ele é direcionado para a home
         });
+
 
     }
 
