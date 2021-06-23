@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
+
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 public class Pedido {
@@ -24,6 +26,18 @@ public class Pedido {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+
+
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "pedido",fetch = FetchType.LAZY)
+    private List<Oferta> ofertas;
+
+    public List<Oferta> getOfertas() {
+        return ofertas;
+    }
+
+    public void setOfertas(List<Oferta> ofertas) {
+        this.ofertas = ofertas;
+    }
 
     public long getId() {
         return id;
