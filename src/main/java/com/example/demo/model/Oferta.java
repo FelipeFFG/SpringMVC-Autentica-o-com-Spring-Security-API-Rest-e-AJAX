@@ -15,7 +15,7 @@ public class Oferta {
     private LocalDate dataDaEntrega;
     private String comentario;
 
-    @ManyToOne(fetch =FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     private Pedido pedido;
 
 
