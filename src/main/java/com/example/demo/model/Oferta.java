@@ -18,6 +18,7 @@ public class Oferta {
     @ManyToOne(fetch =FetchType.LAZY)
     private Pedido pedido;
 
+
     public Pedido getPedido() {
         return pedido;
     }

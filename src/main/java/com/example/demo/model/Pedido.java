@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -25,10 +26,12 @@ public class Pedido {
     private StatusPedido status;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
     private User user;
 
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "pedido",fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Oferta> ofertas;
 
     public List<Oferta> getOfertas() {
